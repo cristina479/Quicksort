@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 public class Quicksort {
 	private int[] data;
 	private PrintWriter pw;
-	private static final boolean PRINT_TRACE = true;
+	private static final boolean PRINT_TRACE = false;
 	private long workNormal = 0;			// work counter for the 
 	private long workMedian = 0;			
 	
@@ -33,7 +33,8 @@ public class Quicksort {
 		// prints input data to a file
 		if(this.pw != null) {
 			this.pw.println("=================================== INPUT ===================================");
-			this.pw.println("Data:\n[ " + this.toString(0, this.data.length) + " ]");
+			this.pw.println("Data:");
+			this.pw.println("[ " + this.toString(0, this.data.length) + " ]");
 			this.pw.println();
 			this.pw.println("=================================== OUTPUT ===================================");
 			this.pw.println();
@@ -206,8 +207,7 @@ public class Quicksort {
 		
 		this.workMedian++;			// work recorded for returning from the getMedianOfThree() method
 		return last;				// return the index of the median-of-three
-	}
-	
+	}	
 	
 	/**
 	 * Swaps two elements in the array.
@@ -234,6 +234,10 @@ public class Quicksort {
 		
 		for(int i = first; i < last - 1; i++) {
 			result += this.data[i] + ", ";
+
+			if((i + 1) % 35 == 0) {
+				result += "\r\n";
+			}
 		}
 		
 		if(first == last) {
@@ -304,5 +308,3 @@ public class Quicksort {
 	}
 	
 }
-
-

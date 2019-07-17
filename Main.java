@@ -10,12 +10,12 @@ import java.util.Scanner;
  * Main class for the Quicksort program
  * 
  * @author Cristina Padro-Juarbe
- *
+ * 10 000 000, 5 000 000, 1 000 000, 100 000, 300
  */
 public class Main {
 	
 	final static int MAX_LENGTH_ARRAY = 30;		
-	final static int BOUND = 200;				// Upper bound integer for generating integer random numbers
+	final static int BOUND = 100000;				// Upper bound integer for generating integer random numbers
 	final static String filepath = "src/quicksort/QuickSort";
 	static PrintWriter printWriter = null;
 	static int workMain = 0;
@@ -68,8 +68,8 @@ public class Main {
 		}
 			
 		// generating the input array
-		for (int i = 0; i < size; i++) {
-			data1[i] = rand.nextInt(BOUND);
+		for (int i = 0, j = size - 1; i < size; i++, j--) {
+			data1[i] = j;//rand.nextInt(BOUND);
 			if(data2 != null) {
 				data2[i] = data1[i];
 			}
@@ -132,7 +132,8 @@ public class Main {
 				qs.quicksort(0, data.length - 1, useMedianOfThree, "");
 				
 				printWriter.println();
-				printWriter.println("RESULT Data:\n[ " + qs.toString(0, data.length) + " ]");	
+				printWriter.println("RESULT Data:");
+				printWriter.println("[ " + qs.toString(0, data.length) + " ]");	
 				printWriter.println("==============================================================================");
 				printWriter.println();
 				printWriter.print("Total work done using " + partitionProcess.toLowerCase() + ": ");
