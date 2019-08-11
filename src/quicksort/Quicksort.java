@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 /**
  * Class for Quicksort algorithm.
  * To print trace runs to a file (input >= 30) or to the terminal (input < 30), change PRINT_TRACE to true.
+ * 
  * The pivot value is enclosed by '|->' and '<-|' for easier identification. 
  * For example, the pivot in array [ 58, 60, 61, 72 |-> 74 <-| 81, 88, 168, 113, 180 ] is '74'.
  * 
@@ -15,15 +16,15 @@ public class Quicksort {
 	private int[] data;
 	private PrintWriter pw;
 	private static final boolean PRINT_TRACE = false;
-	private long workNormal = 0;			// work counter for the 
-	private long workMedian = 0;			
+	private long workNormal = 0;			// work counter for the normal pivot partitioning
+	private long workMedian = 0;			// work counter for the median-of-three pivot partitioning
 	
 	/**
 	 * Constructor of Quicksort class.
 	 * This method prints the input data array to a file (if size of data > 30) or to the console (if size of data <= 30). 
 	 * 
-	 * @param data is an array of randomly generated integer numbers
-	 * @param pw is the Print Writer object to write output and traces to a file
+	 * @param data is an array of randomly generated integers.
+	 * @param pw is the Print Writer object to write output and traces to a file.
 	 */
 	public Quicksort(int[] data, PrintWriter pw) {
 		this.data = data;
@@ -54,8 +55,8 @@ public class Quicksort {
 	 * 
 	 * @param first is the first element in the array.
 	 * @param last is the last element in the array.
-	 * @param useMedianOfThree a boolean value used to determine if the median-of-three partitioning process was selected by the user.
-	 * @param message is a string to indicate if we are working on the left or right side of the data sub-array. It is only used to print trace runs.
+	 * @param useMedianOfThree is a boolean value used to determine if the median-of-three partitioning process was selected by the user.
+	 * @param message is a string to indicate if we are working on the left or right side of the data sub-array. It's only used to print trace runs.
 	 */
 	public void quicksort(int first, int last, boolean useMedianOfThree, String message) {
 		// the sub-array has two or more elements
@@ -171,7 +172,7 @@ public class Quicksort {
 	}
 	
 	/**
-	 * This method determines the median-of-three index and places the array element with this index at the end of the array.
+	 * This method determines the median-of-three index and places the array element with the median-of-three index at the end of the array.
 	 * 
 	 * @param first is the first element in the array.
 	 * @param last is the last element in the array.
@@ -291,7 +292,7 @@ public class Quicksort {
 	 * @return work done by the quicksort algorithm when using normal partitioning.
 	 */
 	public long getNormalWork() {
-		return ++this.workNormal;
+		return ++this.workNormal;			// work recorded for returning from the getNormalWork() method
 	}
 
 	/**
@@ -304,7 +305,7 @@ public class Quicksort {
 	 * @return work done by the quicksort algorithm when using using median-of-three partitioning.
 	 */
 	public long getMedianWork() {
-		return ++this.workMedian + this.workNormal;
+		return ++this.workMedian + this.workNormal;		// work recorded for returning from the getMedianWork() method
 	}
 	
 }

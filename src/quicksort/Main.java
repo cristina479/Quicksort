@@ -8,38 +8,38 @@ import java.util.Scanner;
 
 /**
  * Main class for the Quicksort program
+ * To output arrays of length 30 or smaller to an output file, change constant MAX_LENGTH_ARRAY to the desired upper limit.
  * 
  * @author Cristina Padro-Juarbe
- * 10 000 000, 5 000 000, 1 000 000, 100 000, 300
+ * 
  */
 public class Main {
 	
-	final static int MAX_LENGTH_ARRAY = 30;		
-	final static int BOUND = 100000;				// Upper bound integer for generating integer random numbers
+	final static int MAX_LENGTH_ARRAY = 30;			// Limit for printing output in the console
 	final static String filepath = "src/quicksort/QuickSort";
 	static PrintWriter printWriter = null;
-	static int workMain = 0;
+	static int workMain = 0;						// work counter used to count the work when calling methods in the main class 
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter an integer size for the input array: ");
 		int size = in.nextInt();
 		
-		// From the problem statement in the programming assignment, the input array needs to be at least of size 3.
+		// from the problem statement in the programming assignment, the input array needs to be at least of size 3.
 		while(size < 3) {
 			System.out.println("The input array length must be of at least 3.");
 			System.out.println("\nEnter an integer size for the input array: ");
 			size = in.nextInt();
 		}
 		
-		// get the mode (0 - Normal partition, 1 - Median Of Three partitioning, 2 - Comparing both partitions) from the user
-		System.out.println("\nEnter '0' to use normal partitioning, '1' to use median-of-three partitioning, or '2' to use both in sequence (for comparing both partition proceses): ");				
+		// get the mode (0 - Normal partition, 1 - Median Of Three partitioning, 2 - Both partitions in sequence) from the user
+		System.out.println("\nEnter '0' to use normal partitioning, '1' to use median-of-three partitioning, or '2' to use both partitions in sequence: ");				
 		int mode = in.nextInt();
 		
-		// get the mode (0 - Normal partition, 1 - Median Of Three partitioning, 2 - Comparing both partitions) from the user
+		// get the mode (0 - Normal partition, 1 - Median Of Three partitioning, 2 - Both partitions in sequence) from the user
 		while(mode < 0 || mode > 2) {
 			System.out.println("Valid inputs are (0 - Normal partition, 1 - Median Of Three partitioning, 2 - Both partitions in sequence).");
-			System.out.println("\nEnter '0' to use normal partitioning, '1' to use median-of-three partitioning, or '2' to use both in sequence (for comparing both partition proceses): ");
+			System.out.println("\nEnter '0' to use normal partitioning, '1' to use median-of-three partitioning, or '2' to use both partitions in sequence: ");
 			mode = in.nextInt();
 		}
 		in.close();
@@ -54,22 +54,34 @@ public class Main {
 	 * This is a helper method that creates a random input array of varying size, and calls a 
 	 * second helper method with different parameter values depending on the mode of operation.
 	 * 
-	 * @param size the length of the input array.
-	 * @param mode is the mode of operation of the Quicksort program. Mode 0 - Normal partition, Mode 1 - Median Of Three partitioning, Mode 2 - Comparing both partitions. 
+	 * @param size is the length of the input array.
+	 * @param mode is the mode of operation of the Quicksort program. Mode 0 - Normal partition, Mode 1 - Median Of Three partitioning, Mode 2 - Both partitions in sequence. 
 	 */
 	private static void run(int size, int mode) {
 		Random rand = new Random();
 		int[] data1 = new int[size];
 		int[] data2 = null;		
+		int bound = 10000000;
 		boolean trace_run_console = size <= MAX_LENGTH_ARRAY ? true : false;
 		
 		if(mode == 2) {
 			data2 = new int[size];
 		}
 			
+		// adjust random generator upper bound depending on the input length
+		if(size <= 100) {
+			bound = 300;
+		} else if(size <= 10000) {
+			bound = 500000;
+		} else if(size <= 500000) {
+			bound = 3000000;
+		} else {
+			bound = 10000000;
+		}
+		
 		// generating the input array
-		for (int i = 0, j = size - 1; i < size; i++, j--) {
-			data1[i] = j;//rand.nextInt(BOUND);
+		for (int i = 0; i < size; i++) {
+			data1[i] = rand.nextInt(bound);
 			if(data2 != null) {
 				data2[i] = data1[i];
 			}
@@ -91,8 +103,8 @@ public class Main {
 			
 			break;
 		case 2:
-			// Comparison mode
-			System.out.println("\nYou selected mode 2 (comparison mode). The input array will be first sorted using the normal partition process.");
+			// Both pivot partition processes use the same sequence of input elements to sort 
+			System.out.println("\nYou selected mode 2 (sequence mode). The input array will be first sorted using the normal partition process.");
 			System.out.println("Afterwards, the same unordered input array will be sorted using the median-of-three partition process.\n");
 			System.out.println("Starting work. Please wait...\n");
 			
@@ -113,11 +125,11 @@ public class Main {
 	/**
 	 * This is a helper method that calls the quicksort() sorting algorithm, and prints the program trace runs and results to I/O.
 	 * 
-	 * @param data the input array.
-	 * @param size the length of the input array.
-	 * @param useMedianOfThree a boolean value used to determine if the median-of-three partitioning process was selected by the user. 
-	 * @param printTraces a boolean value used to determine if trace runs should be printed to the console or a file.
-	 * @param partitionProcess the name of the partition process selected.
+	 * @param data is the input array.
+	 * @param size is the length of the input array.
+	 * @param useMedianOfThree is a boolean value used to determine if the median-of-three partitioning process was selected by the user. 
+	 * @param printTraces is a boolean value used to determine if trace runs should be printed to the console or a file.
+	 * @param partitionProcess is the name of the partition process selected.
 	 */
 	private static void sort(int[] data, int size, boolean useMedianOfThree, boolean printTraces, String partitionProcess) {
 		// print output to a file
@@ -146,7 +158,7 @@ public class Main {
 				}
 
 				// used for debugging
-				System.out.println("Is the input array sorted? " + isSorted(data));
+//				 System.out.println("Is the input array sorted? " + isSorted(data));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -173,7 +185,7 @@ public class Main {
 			}
 			
 			// used for debugging
-			System.out.println("Is the input array sorted? " + isSorted(data));
+//			 System.out.println("Is the input array sorted? " + isSorted(data));
 		}
 	}
 
